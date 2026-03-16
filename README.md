@@ -4,13 +4,6 @@ A minimal blinky app built with `device-envoy-esp` using the board's built-in sm
 
 No external LED wiring is required.
 
-## Board directions
-
-- ESP32-C6-DevKitC-1: built-in smart LED on `GPIO8`
-- ESP32-S3-DevKitC-1: built-in smart LED on `GPIO38`
-
-This project blinks SOS in white.
-
 ## Prerequisites
 
 - Rust installed
@@ -33,10 +26,10 @@ If `xtensa-esp32s3-none-elf` is unavailable in your current toolchain, install E
 
 Default (`cargo blinky`) targets ESP32-C6.
 
-### ESP32-C6
+### ESP32-C6 (default)
 
 ```bash
-cargo blinky-c6
+cargo blinky
 ```
 
 ### ESP32-S3
@@ -47,10 +40,10 @@ cargo blinky-s3
 
 Check/build aliases:
 
-- C6: `cargo blinky-c6-check`, `cargo blinky-c6-build`
+- C6 default: `cargo blinky-check`, `cargo blinky-build`
 - S3: `cargo blinky-s3-check`, `cargo blinky-s3-build`
 
 ## Notes
 
-- Runner is `espflash flash --monitor`, so `cargo blinky-*` flashes and opens serial monitor.
+- Runner is `espflash flash --monitor`, so `cargo blinky*` flashes and opens serial monitor.
 - Logging uses `log::info!` through `esp-println`.
