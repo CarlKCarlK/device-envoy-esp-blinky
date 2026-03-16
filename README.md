@@ -2,7 +2,12 @@
 
 A minimal blinky app built with `device-envoy-esp` using the board's built-in smart LED (WS2812).
 
+It loops a one-pixel white SOS Morse pattern on the built-in smart LED.
+
+<img src="docs/assets/led2d_sos_1x1.png" alt="Looping 1-pixel SOS preview" width="50" height="50">
+
 No external LED wiring is required.
+
 
 Jump to the [ESP32-C6 directions](#esp32-c6-directions) or the [ESP32-S3 directions](#esp32-s3-directions).
 
