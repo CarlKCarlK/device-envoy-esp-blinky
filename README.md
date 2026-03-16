@@ -121,3 +121,12 @@ Logging uses `log::info!` through `esp-println`.
 
 - Check: `cargo +esp blinky-s3-check`
 - Build only: `cargo +esp blinky-s3-build`
+
+## License
+
+Licensed under either:
+
+- MIT license
+- Apache License, Version 2.0
+
+at your option.
