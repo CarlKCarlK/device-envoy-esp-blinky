@@ -15,11 +15,6 @@ use device_envoy_esp::{
 
 esp_bootloader_esp_idf::esp_app_desc!();
 
-#[cfg(target_arch = "riscv32")]
-const LED_PIN_NUM: u8 = 8;
-#[cfg(target_arch = "xtensa")]
-const LED_PIN_NUM: u8 = 48;
-
 const DOT_MS: u64 = 200;
 const DASH_MS: u64 = DOT_MS * 3;
 const SYMBOL_GAP_MS: u64 = DOT_MS;
@@ -56,9 +51,8 @@ const SOS_PATTERN: [(Frame1d<1>, Duration); 18] = [
     (OFF_COLOR, WORD_GAP_DURATION),
 ];
 
-#[cfg(target_arch = "riscv32")]
-led_strip! {
-    BuiltinBlinky {
+#[cfg(target_arch = "riscv32")] led_strip! {
+    LedLen1 {
         pin: GPIO8,
         len: 1,
         max_current: Current::Milliamps(10),
@@ -66,9 +60,8 @@ led_strip! {
     }
 }
 
-#[cfg(target_arch = "xtensa")]
-led_strip! {
-    BuiltinBlinky {
+#[cfg(target_arch = "xtensa")] led_strip! {
+    LedLen1 {
         pin: GPIO48,
         len: 1,
         max_current: Current::Milliamps(10),
@@ -86,16 +79,16 @@ async fn inner_main(spawner: Spawner) -> device_envoy_esp::Result<Infallible> {
     init_and_start!(p, rmt80: rmt80, mode: rmt_mode::Blocking);
     esp_println::logger::init_logger(log::LevelFilter::Info);
 
-    info!("device-envoy-esp-blinky boot");
-    info!("built-in smart LED on GPIO{}", LED_PIN_NUM);
+    info!("device-envoy-esp-blinky");
 
     #[cfg(target_arch = "riscv32")]
-    let builtin_blinky = BuiltinBlinky::new(p.GPIO8, rmt80.channel0, spawner)?;
-    #[cfg(target_arch = "xtensa")]
-    let builtin_blinky = BuiltinBlinky::new(p.GPIO48, rmt80.channel0, spawner)?;
+    let led_len1 = LedLen1::new(p.GPIO8, rmt80.channel0, spawner)?;
 
-    builtin_blinky.animate(&SOS_PATTERN);
+    #[cfg(target_arch = "xtensa")]
+    let led_len1 = LedLen1::new(p.GPIO48, rmt80.channel0, spawner)?;
+
+    led_len1.animate(&SOS_PATTERN);
     info!("SOS animation started");
 
-    core::future::pending().await
+    core::future::pending().await // run forever
 }

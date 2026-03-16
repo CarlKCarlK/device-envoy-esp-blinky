@@ -4,9 +4,13 @@ A minimal blinky app built with `device-envoy-esp` using the board's built-in sm
 
 No external LED wiring is required.
 
-## ESP32-C6 (default)
+Jump to the [ESP32-C6 directions](#esp32-c6-directions) or the [ESP32-S3 directions](#esp32-s3-directions).
 
-### Prerequisites
+## ESP32-C6 Directions
+
+### C6 Prerequisites
+
+ESP32-C6 uses the RISC-V target.
 
 - Rust installed
 - `espflash` installed:
@@ -21,22 +25,43 @@ cargo install espflash
 rustup target add riscv32imac-unknown-none-elf
 ```
 
-### Build and run
+### C6 built-in LED pin
+
+This project defaults to `GPIO8` for ESP32-C6 dev boards.
+
+If your board uses a different built-in smart LED pin, update `src/main.rs`:
+
+- `LED_PIN_NUM`
+- The C6 `BuiltinBlinky::new(...)` pin argument
+- The C6 `led_strip! { ... pin: ... }` definition
+
+### C6 Build and run
 
 ```bash
 cargo blinky
 ```
+
+`cargo blinky` is an alias for:
+
+```bash
+cargo run --release --target riscv32imac-unknown-none-elf --no-default-features
+```
+
+The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml`
+handles flashing and opening the serial monitor, so `cargo blinky` does both.
+
+Logging uses `log::info!` through `esp-println`.
 
 ### Extra C6 commands
 
 - Check: `cargo blinky-check`
 - Build only: `cargo blinky-build`
 
-## ESP32-S3 (optional)
+## ESP32-S3 Directions
 
-### Prerequisites
+### S3 Prerequisites
 
-S3 uses Xtensa and requires ESP toolchain setup.
+ESP32-S3 uses Xtensa and requires ESP toolchain setup.
 
 ```bash
 cargo install espup
@@ -44,37 +69,50 @@ espup install
 source "$HOME/export-esp.sh"
 ```
 
-### Build and run
+You'll either need to run `source "$HOME/export-esp.sh"` every time
+or add `. "$HOME/export-esp.sh"` to your shell profile such as
+`~/.bashrc`, `~/.zshrc`, or `~/.profile`.
+
+For example, to add it to `~/.bashrc`:
 
 ```bash
-cargo blinky-s3
+echo '. "$HOME/export-esp.sh"' >> ~/.bashrc
+source ~/.bashrc
 ```
+
+On Windows, `espup` injects the required environment variables automatically,
+so there is no `source` step.
+
+### S3 built-in LED pin
+
+This project defaults to `GPIO48` for ESP32-S3 dev boards.
+
+If your board uses a different built-in smart LED pin, update `src/main.rs`:
+
+- `LED_PIN_NUM`
+- The S3 `BuiltinBlinky::new(...)` pin argument
+- The S3 `led_strip! { ... pin: ... }` definition
+
+### S3 Build and run
+
+```bash
+cargo +esp blinky-s3
+```
+
+This runs the `blinky-s3` cargo alias through the `esp` toolchain.
+
+`cargo +esp blinky-s3` expands to:
+
+```bash
+cargo +esp run -Z build-std=core,alloc --release --target xtensa-esp32s3-none-elf --no-default-features
+```
+
+The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml`
+handles flashing and opening the serial monitor, so `cargo +esp blinky-s3` does both.
+
+Logging uses `log::info!` through `esp-println`.
 
 ### Extra S3 commands
 
-- Check: `cargo blinky-s3-check`
-- Build only: `cargo blinky-s3-build`
-
-## Built-in LED pin defaults
-
-Typical built-in smart LED (WS2812) pins are:
-
-- ESP32-C6 dev boards: usually `GPIO8`
-- ESP32-S3 dev boards: often `GPIO48` (some boards use other pins)
-
-This project defaults to `GPIO8` (C6) and `GPIO48` (S3).
-
-If your board uses a different built-in LED pin, just update `src/main.rs`:
-
-- `LED_PIN_NUM`
-- The S3 or C6 `BuiltinBlinky::new(...)` pin argument
-- The matching `led_strip! { ... pin: ... }` definition
-
-It is a small, straightforward change.
-
-## Notes
-
-- C6 aliases use stable-friendly commands (no `-Z build-std`).
-- S3 aliases use `-Z build-std=core,alloc`.
-- Runner is `espflash flash --monitor`, so `cargo blinky*` flashes and opens serial monitor.
-- Logging uses `log::info!` through `esp-println`.
+- Check: `cargo +esp blinky-s3-check`
+- Build only: `cargo +esp blinky-s3-build`
