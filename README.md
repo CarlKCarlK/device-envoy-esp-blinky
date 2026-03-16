@@ -4,7 +4,9 @@ A minimal blinky app built with `device-envoy-esp` using the board's built-in sm
 
 No external LED wiring is required.
 
-## Prerequisites
+## ESP32-C6 (default)
+
+### Prerequisites
 
 - Rust installed
 - `espflash` installed:
@@ -18,6 +20,40 @@ cargo install espflash
 ```bash
 rustup target add riscv32imac-unknown-none-elf
 ```
+
+### Build and run
+
+```bash
+cargo blinky
+```
+
+### Extra C6 commands
+
+- Check: `cargo blinky-check`
+- Build only: `cargo blinky-build`
+
+## ESP32-S3 (optional)
+
+### Prerequisites
+
+S3 uses Xtensa and requires ESP toolchain setup.
+
+```bash
+cargo install espup
+espup install
+source "$HOME/export-esp.sh"
+```
+
+### Build and run
+
+```bash
+cargo blinky-s3
+```
+
+### Extra S3 commands
+
+- Check: `cargo blinky-s3-check`
+- Build only: `cargo blinky-s3-build`
 
 ## Built-in LED pin defaults
 
@@ -35,32 +71,6 @@ If your board uses a different built-in LED pin, just update `src/main.rs`:
 - The matching `led_strip! { ... pin: ... }` definition
 
 It is a small, straightforward change.
-
-## Build and run
-
-Default (`cargo blinky`) targets ESP32-C6 and is beginner-friendly.
-
-### ESP32-C6 (default, beginner path)
-
-```bash
-cargo blinky
-```
-
-### ESP32-S3 (advanced)
-
-S3 uses Xtensa and requires ESP toolchain setup.
-
-```bash
-cargo install espup
-espup install
-source "$HOME/export-esp.sh"
-cargo blinky-s3
-```
-
-Check/build aliases:
-
-- C6 default: `cargo blinky-check`, `cargo blinky-build`
-- S3: `cargo blinky-s3-check`, `cargo blinky-s3-build`
 
 ## Notes
 
