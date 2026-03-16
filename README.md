@@ -47,5 +47,7 @@ Check/build aliases:
 ## Notes
 
 - C6 and S3 aliases use `-Z build-std=core,alloc`.
+- S3 built-in smart LED defaults to `GPIO48` in this project.
+- If your S3 board variant uses a different pin, update `LED_PIN_NUM` and the S3 `BuiltinBlinky::new(...)` pin in `src/main.rs`.
 - Runner is `espflash flash --monitor`, so `cargo blinky*` flashes and opens serial monitor.
 - Logging uses `log::info!` through `esp-println`.

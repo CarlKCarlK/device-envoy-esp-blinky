@@ -18,7 +18,7 @@ esp_bootloader_esp_idf::esp_app_desc!();
 #[cfg(target_arch = "riscv32")]
 const LED_PIN_NUM: u8 = 8;
 #[cfg(target_arch = "xtensa")]
-const LED_PIN_NUM: u8 = 38;
+const LED_PIN_NUM: u8 = 48;
 
 const DOT_MS: u64 = 200;
 const DASH_MS: u64 = DOT_MS * 3;
@@ -69,7 +69,7 @@ led_strip! {
 #[cfg(target_arch = "xtensa")]
 led_strip! {
     BuiltinBlinky {
-        pin: GPIO38,
+        pin: GPIO48,
         len: 1,
         max_current: Current::Milliamps(10),
         max_frames: 20,
@@ -92,7 +92,7 @@ async fn inner_main(spawner: Spawner) -> device_envoy_esp::Result<Infallible> {
     #[cfg(target_arch = "riscv32")]
     let builtin_blinky = BuiltinBlinky::new(p.GPIO8, rmt80.channel0, spawner)?;
     #[cfg(target_arch = "xtensa")]
-    let builtin_blinky = BuiltinBlinky::new(p.GPIO38, rmt80.channel0, spawner)?;
+    let builtin_blinky = BuiltinBlinky::new(p.GPIO48, rmt80.channel0, spawner)?;
 
     builtin_blinky.animate(&SOS_PATTERN);
     info!("SOS animation started");
