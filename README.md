@@ -13,24 +13,14 @@ No external LED wiring is required.
 cargo install espflash
 ```
 
-- Targets installed:
-
-```bash
-rustup target add riscv32imac-unknown-none-elf
-rustup target add xtensa-esp32s3-none-elf
-```
-
-### ESP32-S3 toolchain note
+### ESP toolchain setup
 
 This project is pinned to the `esp` toolchain (`rust-toolchain.toml`).
-
-If S3 commands fail with target/toolchain errors:
 
 ```bash
 cargo install espup
 espup install
 source "$HOME/export-esp.sh"
-cargo blinky-s3-check
 ```
 
 ## Build and run
@@ -56,5 +46,6 @@ Check/build aliases:
 
 ## Notes
 
+- C6 and S3 aliases use `-Z build-std=core,alloc`.
 - Runner is `espflash flash --monitor`, so `cargo blinky*` flashes and opens serial monitor.
 - Logging uses `log::info!` through `esp-println`.
