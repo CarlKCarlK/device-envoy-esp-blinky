@@ -23,6 +23,23 @@ espup install
 source "$HOME/export-esp.sh"
 ```
 
+## Built-in LED pin defaults
+
+Typical built-in smart LED (WS2812) pins are:
+
+- ESP32-C6 dev boards: usually `GPIO8`
+- ESP32-S3 dev boards: often `GPIO48` (some boards use other pins)
+
+This project defaults to `GPIO8` (C6) and `GPIO48` (S3).
+
+If your board uses a different built-in LED pin, just update `src/main.rs`:
+
+- `LED_PIN_NUM`
+- The S3 or C6 `BuiltinBlinky::new(...)` pin argument
+- The matching `led_strip! { ... pin: ... }` definition
+
+It is a small, straightforward change.
+
 ## Build and run
 
 Default (`cargo blinky`) targets ESP32-C6.
@@ -47,7 +64,5 @@ Check/build aliases:
 ## Notes
 
 - C6 and S3 aliases use `-Z build-std=core,alloc`.
-- S3 built-in smart LED defaults to `GPIO48` in this project.
-- If your S3 board variant uses a different pin, update `LED_PIN_NUM` and the S3 `BuiltinBlinky::new(...)` pin in `src/main.rs`.
 - Runner is `espflash flash --monitor`, so `cargo blinky*` flashes and opens serial monitor.
 - Logging uses `log::info!` through `esp-println`.
