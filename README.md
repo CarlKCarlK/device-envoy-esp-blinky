@@ -20,7 +20,18 @@ rustup target add riscv32imac-unknown-none-elf
 rustup target add xtensa-esp32s3-none-elf
 ```
 
-If `xtensa-esp32s3-none-elf` is unavailable in your current toolchain, install ESP Rust toolchains via `espup`.
+### ESP32-S3 toolchain note
+
+This project is pinned to the `esp` toolchain (`rust-toolchain.toml`).
+
+If S3 commands fail with target/toolchain errors:
+
+```bash
+cargo install espup
+espup install
+source "$HOME/export-esp.sh"
+cargo blinky-s3-check
+```
 
 ## Build and run
 
