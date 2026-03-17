@@ -1,6 +1,19 @@
 # device-envoy-esp-blinky
 
-A minimal blinky app built with `device-envoy-esp` using the board's built-in smart LED (WS2812).
+[![GitHub](https://img.shields.io/badge/github-device--envoy--esp--blinky-8da0cb?style=flat&labelColor=555555&logo=github)](https://github.com/CarlKCarlK/device-envoy-esp-blinky)
+[![crates.io](https://img.shields.io/crates/v/device-envoy-esp?style=flat&color=fc8d62&logo=rust)](https://crates.io/crates/device-envoy-esp)
+
+[`device-envoy-esp`](https://crates.io/crates/device-envoy-esp) is a Rust crate for building ESP32 applications with NeoPixel-style (WS2812) LED panels, easy WiFi, and composable device abstractions.
+
+This repository is a minimal blinky example that uses [`device-envoy-esp`](https://crates.io/crates/device-envoy-esp) with the board's built-in smart LED (WS2812).
+
+To use project as the start of your own project:
+
+```bash
+git clone https://github.com/CarlKCarlK/device-envoy-esp-blinky.git
+cd device-envoy-esp-blinky
+git remote remove origin
+```
 
 It loops a one-pixel white SOS Morse pattern on the built-in smart LED.
 
@@ -126,7 +139,7 @@ Logging uses `log::info!` through `esp-println`.
 
 Licensed under either:
 
-- MIT license
-- Apache License, Version 2.0
+- MIT license (see LICENSE-MIT)
+- Apache License, Version 2.0 (see LICENSE-APACHE)
 
 at your option.
