@@ -55,16 +55,13 @@ If your board uses a different built-in smart LED pin, update `src/main.rs`.
 cargo blinky
 ```
 
-`cargo blinky` is an alias for:
+Behind the scenes `cargo blinky` is an alias for:
 
 ```bash
 cargo run --release --target riscv32imac-unknown-none-elf --no-default-features
 ```
 
-The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml`
-handles flashing and opening the serial monitor, so `cargo blinky` does both.
-
-Logging uses `log::info!` through `esp-println`.
+The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml` handles flashing and opening the serial monitor, so `cargo blinky` does both.
 
 ### Extra C6 commands
 
@@ -109,18 +106,13 @@ If your board uses a different built-in smart LED pin, update `src/main.rs`.
 cargo +esp blinky-s3
 ```
 
-This runs the `blinky-s3` cargo alias through the `esp` toolchain.
-
-`cargo +esp blinky-s3` expands to:
+Behind the scenes, `cargo +esp blinky-s3` expands to:
 
 ```bash
 cargo +esp run -Z build-std=core,alloc --release --target xtensa-esp32s3-none-elf --no-default-features
 ```
 
-The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml`
-handles flashing and opening the serial monitor, so `cargo +esp blinky-s3` does both.
-
-Logging uses `log::info!` through `esp-println`.
+The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml` handles flashing and opening the serial monitor, so `cargo +esp blinky-s3` does both.
 
 ### Extra S3 commands
 
