@@ -247,7 +247,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-core"
-version = "0.0.5-alpha.0"
+version = "0.0.5-alpha.2"
 dependencies = [
  "crc32fast",
  "critical-section",
@@ -269,7 +269,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-esp"
-version = "0.0.5-alpha.1"
+version = "0.0.5-alpha.2"
 dependencies = [
  "device-envoy-core",
  "embassy-executor",
@@ -298,7 +298,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-esp-blinky"
-version = "0.0.5-alpha.1"
+version = "0.0.5-alpha.2"
 dependencies = [
  "device-envoy-esp",
  "embassy-executor",
