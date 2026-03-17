@@ -47,11 +47,7 @@ rustup target add riscv32imac-unknown-none-elf
 
 This project defaults to `GPIO8` for ESP32-C6 dev boards.
 
-If your board uses a different built-in smart LED pin, update `src/main.rs`:
-
-- `LED_PIN_NUM`
-- The C6 `BuiltinBlinky::new(...)` pin argument
-- The C6 `led_strip! { ... pin: ... }` definition
+If your board uses a different built-in smart LED pin, update `src/main.rs`.
 
 ### C6 Build and run
 
@@ -105,11 +101,7 @@ so there is no `source` step.
 
 This project defaults to `GPIO48` for ESP32-S3 dev boards.
 
-If your board uses a different built-in smart LED pin, update `src/main.rs`:
-
-- `LED_PIN_NUM`
-- The S3 `BuiltinBlinky::new(...)` pin argument
-- The S3 `led_strip! { ... pin: ... }` definition
+If your board uses a different built-in smart LED pin, update `src/main.rs`.
 
 ### S3 Build and run
 
