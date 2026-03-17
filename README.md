@@ -77,12 +77,10 @@ ESP32-S3 uses Xtensa and requires ESP toolchain setup.
 ```bash
 cargo install espup
 espup install
-source "$HOME/export-esp.sh"
+source "$HOME/export-esp.sh" # skip if on Windows
 ```
 
-You'll either need to run `source "$HOME/export-esp.sh"` every time
-or add `. "$HOME/export-esp.sh"` to your shell profile such as
-`~/.bashrc`, `~/.zshrc`, or `~/.profile`.
+On Linux-like systems, you'll either need to run `source "$HOME/export-esp.sh"` every time or add `. "$HOME/export-esp.sh"` to your shell profile such as `~/.bashrc`, `~/.zshrc`, or `~/.profile`.
 
 For example, to add it to `~/.bashrc`:
 
@@ -91,14 +89,14 @@ echo '. "$HOME/export-esp.sh"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-On Windows, `espup` injects the required environment variables automatically,
-so there is no `source` step.
+On Windows, `espup` injects the required environment variables automatically, so there is no `source` step, but you do need
+to re-start your command shell or terminal.
 
 ### S3 built-in LED pin
 
 This project defaults to `GPIO48` for ESP32-S3 dev boards.
 
-If your board uses a different built-in smart LED pin, update `src/main.rs`.
+If your board uses a different built-in smart LED pin, update `src/main.rs`. `GPIO38` is the next most common.
 
 ### S3 Build and run
 
