@@ -269,7 +269,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-esp"
-version = "0.0.5-alpha.2"
+version = "0.0.5-alpha.3"
 dependencies = [
  "device-envoy-core",
  "embassy-executor",
@@ -298,7 +298,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-esp-blinky"
-version = "0.0.5-alpha.2"
+version = "0.0.5-alpha.3"
 dependencies = [
  "device-envoy-esp",
  "embassy-executor",
