@@ -7,6 +7,8 @@
 
 This repository is a minimal blinky example that uses [`device-envoy-esp`](https://crates.io/crates/device-envoy-esp) with the board's built-in smart LED (WS2812).
 
+This template currently runs on and is tested with ESP32-C6 and ESP32-S3.
+
 To use project as the start of your own project:
 
 ```bash
