@@ -1,10 +1,10 @@
 [package]
 name = "device-envoy-esp-blinky"
-version = "0.0.5-alpha.4"
+version = "0.0.5-alpha.5"
 edition = "2024"
 
 [dependencies]
-device-envoy-esp = { version = "0.0.5-alpha.4", default-features = false }
+device-envoy-esp = { version = "0.0.5-alpha.5", default-features = false }
 embassy-executor = "0.9.0"
 embassy-time = "0.5.0"
 smart-leds = "0.4.0"

@@ -247,9 +247,9 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-core"
-version = "0.0.5-alpha.3"
+version = "0.0.5-alpha.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e06795a38d2fa89ef0b5b81bc0450c6e0f33d4978aa4acf586f463260953e74f"
+checksum = "204d45ad4a97112aa9dde8e5dca6269e1bf42fef68871a22915b9d0d4c091ef8"
 dependencies = [
  "crc32fast",
  "critical-section",
@@ -271,9 +271,9 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-esp"
-version = "0.0.5-alpha.4"
+version = "0.0.5-alpha.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5bcd73c13cbe5c0779d701048dd360f093573a1045c748be796b4211dbe8b110"
+checksum = "910b5fbce82c2eb69c66dd1e0545f8aaa9032d55a368ea1749d179977426b513"
 dependencies = [
  "device-envoy-core",
  "embassy-executor",
@@ -302,7 +302,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-esp-blinky"
-version = "0.0.5-alpha.4"
+version = "0.0.5-alpha.5"
 dependencies = [
  "device-envoy-esp",
  "embassy-executor",
