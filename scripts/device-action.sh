@@ -28,18 +28,41 @@ esac
 cargo_bin=(cargo)
 build_std_args=()
 target=""
+feature=""
 
 case "$chip" in
   c6)
     target="riscv32imac-unknown-none-elf"
+    feature="esp32c6"
+    ;;
+  c3)
+    target="riscv32imc-unknown-none-elf"
+    feature="esp32c3"
+    ;;
+  h2)
+    target="riscv32imac-unknown-none-elf"
+    feature="esp32h2"
+    ;;
+  esp32)
+    target="xtensa-esp32-none-elf"
+    feature="esp32"
+    cargo_bin=(cargo +esp)
+    build_std_args=(-Zbuild-std=core,alloc)
+    ;;
+  s2)
+    target="xtensa-esp32s2-none-elf"
+    feature="esp32s2"
+    cargo_bin=(cargo +esp)
+    build_std_args=(-Zbuild-std=core,alloc)
     ;;
   s3)
     target="xtensa-esp32s3-none-elf"
+    feature="esp32s3"
     cargo_bin=(cargo +esp)
     build_std_args=(-Zbuild-std=core,alloc)
     ;;
   *)
-    echo "invalid chip '$chip' (expected one of: c6, s3)" >&2
+    echo "invalid chip '$chip' (expected one of: c6, c3, h2, esp32, s2, s3)" >&2
     exit 1
     ;;
 esac
@@ -57,4 +80,5 @@ fi
   --target "$target" \
   "${release_args[@]}" \
   --no-default-features \
+  --features "$feature" \
   "${build_std_args[@]}"

@@ -51,7 +51,16 @@ const SOS_PATTERN: [(Frame1d<1>, Duration); 18] = [
     (OFF_COLOR, WORD_GAP_DURATION),
 ];
 
-#[cfg(target_arch = "riscv32")] led_strip! {
+#[cfg(feature = "esp32s3")] led_strip! {
+    LedLen1 {
+        pin: GPIO48,
+        len: 1,
+        max_current: Current::Milliamps(10),
+        max_frames: 20,
+    }
+}
+
+#[cfg(feature = "esp32c6")] led_strip! {
     LedLen1 {
         pin: GPIO8,
         len: 1,
@@ -60,9 +69,16 @@ const SOS_PATTERN: [(Frame1d<1>, Duration); 18] = [
     }
 }
 
-#[cfg(target_arch = "xtensa")] led_strip! {
+#[cfg(any(
+    feature = "esp32",
+    feature = "esp32s2",
+    feature = "esp32c2",
+    feature = "esp32c3",
+    feature = "esp32h2"
+))]
+led_strip! {
     LedLen1 {
-        pin: GPIO48,
+        pin: GPIO2,
         len: 1,
         max_current: Current::Milliamps(10),
         max_frames: 20,
@@ -81,11 +97,20 @@ async fn inner_main(spawner: Spawner) -> device_envoy_esp::Result<Infallible> {
 
     info!("device-envoy-esp-blinky");
 
-    #[cfg(target_arch = "riscv32")]
+    #[cfg(feature = "esp32s3")]
+    let led_len1 = LedLen1::new(p.GPIO48, rmt80.channel0, spawner)?;
+
+    #[cfg(feature = "esp32c6")]
     let led_len1 = LedLen1::new(p.GPIO8, rmt80.channel0, spawner)?;
 
-    #[cfg(target_arch = "xtensa")]
-    let led_len1 = LedLen1::new(p.GPIO48, rmt80.channel0, spawner)?;
+    #[cfg(any(
+        feature = "esp32",
+        feature = "esp32s2",
+        feature = "esp32c2",
+        feature = "esp32c3",
+        feature = "esp32h2"
+    ))]
+    let led_len1 = LedLen1::new(p.GPIO2, rmt80.channel0, spawner)?;
 
     led_len1.animate(&SOS_PATTERN);
     info!("SOS animation started");

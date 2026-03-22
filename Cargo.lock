@@ -266,8 +266,6 @@ dependencies = [
 [[package]]
 name = "device-envoy-core"
 version = "0.0.5-alpha.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "204d45ad4a97112aa9dde8e5dca6269e1bf42fef68871a22915b9d0d4c091ef8"
 dependencies = [
  "crc32fast",
  "critical-section",
@@ -290,8 +288,6 @@ dependencies = [
 [[package]]
 name = "device-envoy-esp"
 version = "0.0.5-alpha.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "910b5fbce82c2eb69c66dd1e0545f8aaa9032d55a368ea1749d179977426b513"
 dependencies = [
  "device-envoy-core",
  "embassy-executor",
@@ -1359,9 +1355,6 @@ name = "portable-atomic"
 version = "1.13.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c33a9471896f1c69cecef8d20cbe2f7accd12527ce60845ff44c153bb2a21b49"
-dependencies = [
- "critical-section",
-]
 
 [[package]]
 name = "portable-atomic-util"
