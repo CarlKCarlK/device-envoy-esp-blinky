@@ -33,6 +33,7 @@ Jump to the [ESP32-C6 directions](#esp32-c6-directions) or the [ESP32-S3 directi
 ESP32-C6 uses the RISC-V target.
 
 - Rust installed
+- `just` installed
 - `espflash` installed:
 
 ```bash
@@ -54,21 +55,23 @@ If your board uses a different built-in smart LED pin, update `src/main.rs`.
 ### C6 Build and run
 
 ```bash
-cargo blinky
+just run
+just run blinky
 ```
 
-Behind the scenes `cargo blinky` is an alias for:
+Behind the scenes, `just run` executes:
 
 ```bash
 cargo run --release --target riscv32imac-unknown-none-elf --no-default-features
 ```
 
-The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml` handles flashing and opening the serial monitor, so `cargo blinky` does both.
+The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml` handles flashing and opening the serial monitor, so `just run` does both.
 
 ### Extra C6 commands
 
-- Check: `cargo blinky-check`
-- Build only: `cargo blinky-build`
+- Check: `just check`
+- Build only: `just build`
+- Also accepted: `just check blinky`, `just build blinky`
 
 ## ESP32-S3 Directions
 
@@ -103,21 +106,23 @@ If your board uses a different built-in smart LED pin, update `src/main.rs`. `GP
 ### S3 Build and run
 
 ```bash
-cargo +esp blinky-s3
+just run s3
+just run blinky s3
 ```
 
-Behind the scenes, `cargo +esp blinky-s3` expands to:
+Behind the scenes, `just run s3` expands to:
 
 ```bash
 cargo +esp run -Z build-std=core,alloc --release --target xtensa-esp32s3-none-elf --no-default-features
 ```
 
-The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml` handles flashing and opening the serial monitor, so `cargo +esp blinky-s3` does both.
+The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml` handles flashing and opening the serial monitor, so `just run s3` does both.
 
 ### Extra S3 commands
 
-- Check: `cargo +esp blinky-s3-check`
-- Build only: `cargo +esp blinky-s3-build`
+- Check: `just check s3`
+- Build only: `just build s3`
+- Also accepted: `just check blinky s3`, `just build blinky s3`
 
 ## License
 
