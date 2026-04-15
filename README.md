@@ -7,58 +7,58 @@ Minimal blinky project using [`device-envoy-esp`](https://crates.io/crates/devic
 
 ## What This Repo Contains
 
-- `src/main.rs` is the default quick start. It assumes a built-in NeoPixel-style (WS2812) LED on `GPIO8`.
+- `src/main.rs` is the default quick start. It assumes a built-in NeoPixel-style (WS2812) LED on `GPIO8` (where available).
 - `examples/<chip>/<board>/blinky.rs` contains chip- and board-specific variants.
 
 What if your board is different from the default setup?
 
-1. If your built-in NeoPixel LED is on
-a different GPIO, just edit `src/main.rs.`.
-2. Alternatively, find your board at
-`examples/<chip>/<board>/blinky.rs`. Copy  this `blinky.rs` into `src/main.rs`. If needed, follow
-instructions on wiring an external plain LED.
+1. If your built-in NeoPixel LED is on a different GPIO, edit `src/main.rs`.
+2. Alternatively, find your board at `examples/<chip>/<board>/blinky.rs`, copy that `blinky.rs` into `src/main.rs`, and adjust wiring as needed (including external plain LED wiring if required).
 
 ## Quick Start
 
 ```bash
 git clone https://github.com/CarlKCarlK/device-envoy-esp-blinky.git
 cd device-envoy-esp-blinky
+cargo xtask run --release
 ```
 
-* Xtensa-based targets (`esp32s3`, `esp32s2`, `esp32`) need additional toolchain installation. See below.
+For non-default chips:
 
 ```bash
-# RISC-V Chips
-cargo run --release --no-default-features --features <YOUR_CHIP>
-# Xtensa Chips
-cargo +esp run --release --no-default-features --features <YOUR_CHIP>
+cargo xtask run --chip c3 --release
+cargo xtask check --chip s3
+cargo xtask build --chip esp32 --release
 ```
 
-where `<YOUR_CHIP>` is `esp32c6`, etc.
+`--chip` supports:
+`c2`, `c3`, `c6`, `h2`, `esp32`, `s2`, `s3`.
+
+If you want board-specific code, copy from `examples/<chip>/<board>/blinky.rs` into `src/main.rs`, then run `cargo xtask ...`.
 
 ## Commands
 
 Default app (C6 devkit):
 
 ```bash
-cargo run --release --no-default-features --features esp32c6
-cargo check --no-default-features --features esp32c6
-cargo build --release --no-default-features --features esp32c6
+cargo xtask run --release
+cargo xtask check
+cargo xtask build --release
 ```
 
-Board-specific example:
+Chip-specific commands:
 
 ```bash
-cargo run --release --no-default-features --features esp32c6 --example blinky_c6_devkitc1_n8
-cargo check --no-default-features --features esp32s3 --example blinky_s3_generic
-cargo build --release --no-default-features --features esp32c3 --example blinky_c3_luatos
+cargo xtask run --chip c6 --release
+cargo xtask check --chip s3
+cargo xtask build --chip c3 --release
 ```
 
 Other chip/board combinations:
 
 ```bash
-cargo run --release --no-default-features --features esp32c2 --example blinky_c2_generic
-cargo run --release --no-default-features --features esp32h2 --example blinky_h2_generic
+cargo xtask run --chip c2 --release
+cargo xtask run --chip h2 --release
 ```
 
 ## Toolchain
@@ -75,10 +75,21 @@ Xtensa chips (`esp32`, `s2`, `s3`) need ESP toolchain setup:
 ```bash
 cargo install espup
 espup install
-source "$HOME/export-esp.sh" # skip if on Windows
 ```
 
-Then use `cargo +esp` for xtensa targets:
+Enable espup environment before building xtensa chips:
+
+```bash
+# Linux/macOS
+source "$HOME/export-esp.sh"
+```
+
+```powershell
+# Windows PowerShell
+& "$HOME/export-esp.ps1"
+```
+
+Equivalent raw cargo commands (advanced):
 
 ```bash
 cargo +esp run --release --target xtensa-esp32s3-none-elf --no-default-features --features esp32s3 --example blinky_s3_generic -Zbuild-std=core,alloc

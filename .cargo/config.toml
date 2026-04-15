@@ -33,5 +33,5 @@ rustflags = [
   "link-arg=-Tlinkall.x",
 ]
 
-[build]
-target = "riscv32imac-unknown-none-elf"
+[alias]
+xtask = "run --manifest-path xtask/Cargo.toml --"
