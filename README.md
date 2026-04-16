@@ -7,59 +7,58 @@ Minimal blinky project using [`device-envoy-esp`](https://crates.io/crates/devic
 
 ## What This Repo Contains
 
-- `src/main.rs` is the default quick start. It assumes a built-in NeoPixel-style (WS2812) LED on `GPIO8` (where available).
+- `src/main.rs` is the default quick start. It assumes a built-in NeoPixel-style (WS2812) LED on `GPIO8`.
 - `examples/<chip>/<board>/blinky.rs` contains chip- and board-specific variants.
 
 What if your board is different from the default setup?
 
-1. If your built-in NeoPixel LED is on a different GPIO, edit `src/main.rs`.
-2. Alternatively, find your board at `examples/<chip>/<board>/blinky.rs`, copy that `blinky.rs` into `src/main.rs`, and adjust wiring as needed (including external plain LED wiring if required).
+1. If your built-in NeoPixel LED is on a different GPIO, edit `src/main.rs` to reflect its location.
+2. Alternatively, find your board at `examples/<chip>/<board>/blinky.rs`. Copy that `blinky.rs` into `src/main.rs`, and adjust wiring as needed (including external plain LED wiring if required).
+
+## Prerequisites
+
+Before **Quick Start**, install the toolchain in [Toolchain](#toolchain), then return here.
 
 ## Quick Start
 
 ```bash
 git clone https://github.com/CarlKCarlK/device-envoy-esp-blinky.git
 cd device-envoy-esp-blinky
-cargo xtask run --release
+cargo xtask run --chip YOUR_CHIP
 ```
 
-For non-default chips:
+Change the `YOUR_CHIP` to your chip. Supported options: `c2`, `c3`, `c6`, `h2`, `esp32`, `s2`, `s3`.
 
-```bash
-cargo xtask run --chip c3 --release
-cargo xtask check --chip s3
-cargo xtask build --chip esp32 --release
+
+*This `xtask run` always adds the `--release` option*.
+
+## Setting the Default Chip
+
+If you do not want to repeat `--chip`, set your project default once in `xtask/src/main.rs` by changing:
+
+```rust
+const DEFAULT_CHIP: Chip = Chip::C6;
 ```
 
-`--chip` supports:
-`c2`, `c3`, `c6`, `h2`, `esp32`, `s2`, `s3`.
+## Main Commands
 
-If you want board-specific code, copy from `examples/<chip>/<board>/blinky.rs` into `src/main.rs`, then run `cargo xtask ...`.
-
-## Commands
-
-Default app (C6 devkit):
+*This assumes you've set the default to your chip; otherwise append `--chip YOUR_CHIP`.*
 
 ```bash
-cargo xtask run --release
+cargo xtask run
 cargo xtask check
-cargo xtask build --release
+cargo xtask build
 ```
 
-Chip-specific commands:
+## Running Examples Directly
 
 ```bash
-cargo xtask run --chip c6 --release
-cargo xtask check --chip s3
-cargo xtask build --chip c3 --release
+cargo xtask run --example blinky_c6_devkitc1_n8
+cargo xtask check --example blinky_c6_devkitc1_n8
+cargo xtask build --example blinky_c6_devkitc1_n8
 ```
 
-Other chip/board combinations:
-
-```bash
-cargo xtask run --chip c2 --release
-cargo xtask run --chip h2 --release
-```
+Where examples are defined in `examples` and (if subfolders are used) in `Cargo.toml`.
 
 ## Toolchain
 
@@ -80,19 +79,18 @@ espup install
 Enable espup environment before building xtensa chips:
 
 ```bash
-# Linux/macOS
+# Linux/macOS/WSL
 source "$HOME/export-esp.sh"
+# To make this permanent, add this line to your
+# shell profile (e.g. ~/.bashrc or ~/.zshrc):
+# source "$HOME/export-esp.sh"
 ```
 
 ```powershell
 # Windows PowerShell
-& "$HOME/export-esp.ps1"
-```
-
-Equivalent raw cargo commands (advanced):
-
-```bash
-cargo +esp run --release --target xtensa-esp32s3-none-elf --no-default-features --features esp32s3 --example blinky_s3_generic -Zbuild-std=core,alloc
+& "$env:USERPROFILE\export-esp.ps1"
+# To make this permanent, run:
+# if (!(Test-Path $PROFILE)) { New-Item -Type File -Path $PROFILE -Force }; Add-Content $PROFILE '& "$env:USERPROFILE\export-esp.ps1"'
 ```
 
 Install flashing tool:
@@ -100,16 +98,6 @@ Install flashing tool:
 ```bash
 cargo install espflash
 ```
-
-Optional helper (`just`)
-
-```bash
-just run
-just check
-just build
-```
-
-`just` is a convenience wrapper around the `cargo` commands above.
 
 ## License
 

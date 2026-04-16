@@ -19,6 +19,9 @@ enum Chip {
     S3,
 }
 
+// Change this once for your project if you do not want to pass --chip every time.
+const DEFAULT_CHIP: Chip = Chip::C6;
+
 impl Chip {
     fn target(self) -> &'static str {
         match self {
@@ -42,20 +45,23 @@ impl Chip {
         }
     }
 
-    fn example_chip_segment(self) -> &'static str {
-        match self {
-            Chip::C2 => "c2",
-            Chip::C3 => "c3",
-            Chip::C6 => "c6",
-            Chip::H2 => "h2",
-            Chip::Esp32 => "esp32",
-            Chip::S2 => "s2",
-            Chip::S3 => "s3",
-        }
-    }
-
     fn uses_xtensa_toolchain(self) -> bool {
         matches!(self, Chip::Esp32 | Chip::S2 | Chip::S3)
+    }
+}
+
+fn infer_chip_from_example_name(example_name: &str) -> Option<Chip> {
+    let with_prefix = example_name.strip_prefix("blinky_")?;
+    let chip_segment = with_prefix.split('_').next()?;
+    match chip_segment {
+        "c2" => Some(Chip::C2),
+        "c3" => Some(Chip::C3),
+        "c6" => Some(Chip::C6),
+        "h2" => Some(Chip::H2),
+        "esp32" => Some(Chip::Esp32),
+        "s2" => Some(Chip::S2),
+        "s3" => Some(Chip::S3),
+        _ => None,
     }
 }
 
@@ -66,14 +72,10 @@ struct Cli {
     #[arg(value_enum)]
     action: Action,
 
-    #[arg(long, value_enum, default_value = "c6")]
-    chip: Chip,
+    #[arg(long, value_enum)]
+    chip: Option<Chip>,
 
-    /// Board slug to run/check/build copied board examples, e.g. generic or devkitc1_n8
-    #[arg(long)]
-    board: Option<String>,
-
-    /// Optional example target name (for test workflows), e.g. blinky_c3_generic
+    /// Optional example target name, e.g. blinky_s3_devkitc1_v1_0_n16r8
     #[arg(long)]
     example: Option<String>,
 
@@ -84,14 +86,18 @@ struct Cli {
 
 fn main() -> ExitCode {
     let cli = Cli::parse();
-    if cli.board.is_some() && cli.example.is_some() {
-        eprintln!("error: pass only one of --board or --example");
-        return ExitCode::FAILURE;
-    }
+    let chip = cli
+        .chip
+        .or_else(|| {
+            cli.example
+                .as_deref()
+                .and_then(infer_chip_from_example_name)
+        })
+        .unwrap_or(DEFAULT_CHIP);
 
     let mut cargo = Command::new("cargo");
 
-    if cli.chip.uses_xtensa_toolchain() {
+    if chip.uses_xtensa_toolchain() {
         cargo.arg("+esp");
     }
 
@@ -101,26 +107,20 @@ fn main() -> ExitCode {
         Action::Build => "build",
     });
 
-    cargo.arg("--target").arg(cli.chip.target());
+    cargo.arg("--target").arg(chip.target());
 
     let use_release = cli.release || !matches!(cli.action, Action::Check);
     if use_release {
         cargo.arg("--release");
     }
 
-    cargo
-        .arg("--no-default-features")
-        .arg("--features")
-        .arg(cli.chip.feature());
+    cargo.arg("--features").arg(chip.feature());
 
     if let Some(example) = cli.example.as_deref() {
         cargo.arg("--example").arg(example);
-    } else if let Some(board) = cli.board.as_deref() {
-        let example = format!("blinky_{}_{}", cli.chip.example_chip_segment(), board);
-        cargo.arg("--example").arg(example);
     }
 
-    if cli.chip.uses_xtensa_toolchain() {
+    if chip.uses_xtensa_toolchain() {
         cargo.arg("-Zbuild-std=core,alloc");
     }
 
