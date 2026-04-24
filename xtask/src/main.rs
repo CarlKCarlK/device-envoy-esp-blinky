@@ -12,7 +12,9 @@ enum Action {
 enum Chip {
     C2,
     C3,
+    C5,
     C6,
+    C61,
     H2,
     Esp32,
     S2,
@@ -26,7 +28,7 @@ impl Chip {
     fn target(self) -> &'static str {
         match self {
             Chip::C2 | Chip::C3 => "riscv32imc-unknown-none-elf",
-            Chip::C6 | Chip::H2 => "riscv32imac-unknown-none-elf",
+            Chip::C5 | Chip::C6 | Chip::C61 | Chip::H2 => "riscv32imac-unknown-none-elf",
             Chip::Esp32 => "xtensa-esp32-none-elf",
             Chip::S2 => "xtensa-esp32s2-none-elf",
             Chip::S3 => "xtensa-esp32s3-none-elf",
@@ -37,7 +39,9 @@ impl Chip {
         match self {
             Chip::C2 => "esp32c2",
             Chip::C3 => "esp32c3",
+            Chip::C5 => "esp32c5",
             Chip::C6 => "esp32c6",
+            Chip::C61 => "esp32c61",
             Chip::H2 => "esp32h2",
             Chip::Esp32 => "esp32",
             Chip::S2 => "esp32s2",
@@ -56,7 +60,9 @@ fn infer_chip_from_example_name(example_name: &str) -> Option<Chip> {
     match chip_segment {
         "c2" => Some(Chip::C2),
         "c3" => Some(Chip::C3),
+        "c5" => Some(Chip::C5),
         "c6" => Some(Chip::C6),
+        "c61" => Some(Chip::C61),
         "h2" => Some(Chip::H2),
         "esp32" => Some(Chip::Esp32),
         "s2" => Some(Chip::S2),

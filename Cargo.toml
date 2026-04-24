@@ -29,6 +29,14 @@ esp32c3 = [
     "esp-println/esp32c3",
     "esp-bootloader-esp-idf/esp32c3",
 ]
+esp32c5 = [
+    "device-envoy-esp/esp32c5",
+    "esp-hal/esp32c5",
+    "esp-rtos/esp32c5",
+    "esp-backtrace/esp32c5",
+    "esp-println/esp32c5",
+    "esp-bootloader-esp-idf/esp32c5",
+]
 esp32c6 = [
     "device-envoy-esp/esp32c6",
     "esp-hal/esp32c6",
@@ -36,6 +44,14 @@ esp32c6 = [
     "esp-backtrace/esp32c6",
     "esp-println/esp32c6",
     "esp-bootloader-esp-idf/esp32c6",
+]
+esp32c61 = [
+    "device-envoy-esp/esp32c61",
+    "esp-hal/esp32c61",
+    "esp-rtos/esp32c61",
+    "esp-backtrace/esp32c61",
+    "esp-println/esp32c61",
+    "esp-bootloader-esp-idf/esp32c61",
 ]
 esp32h2 = [
     "device-envoy-esp/esp32h2",
@@ -108,6 +124,11 @@ path = "examples/c3/luatos/blinky.rs"
 required-features = ["esp32c3"]
 
 [[example]]
+name = "blinky_c5_generic"
+path = "examples/c5/generic/blinky.rs"
+required-features = ["esp32c5"]
+
+[[example]]
 name = "blinky_c6_devkitc1_n8"
 path = "examples/c6/devkitc1_n8/blinky.rs"
 required-features = ["esp32c6"]
@@ -116,6 +137,11 @@ required-features = ["esp32c6"]
 name = "blinky_c6_generic"
 path = "examples/c6/generic/blinky.rs"
 required-features = ["esp32c6"]
+
+[[example]]
+name = "blinky_c61_generic"
+path = "examples/c61/generic/blinky.rs"
+required-features = ["esp32c61"]
 
 [[example]]
 name = "blinky_esp32_generic"
