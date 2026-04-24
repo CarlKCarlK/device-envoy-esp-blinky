@@ -3,121 +3,101 @@
 [![GitHub](https://img.shields.io/badge/github-device--envoy--esp--blinky-8da0cb?style=flat&labelColor=555555&logo=github)](https://github.com/CarlKCarlK/device-envoy-esp-blinky)
 [![crates.io](https://img.shields.io/crates/v/device-envoy-esp?style=flat&color=fc8d62&logo=rust)](https://crates.io/crates/device-envoy-esp)
 
-[`device-envoy-esp`](https://crates.io/crates/device-envoy-esp) is a Rust crate for building ESP32 applications with NeoPixel-style (WS2812) LED panels, easy WiFi, and composable device abstractions.
+Minimal blinky project using [`device-envoy-esp`](https://crates.io/crates/device-envoy-esp) and a built-in NeoPixel-style (WS2812) LED (where available).
 
-This repository is a minimal blinky example that uses [`device-envoy-esp`](https://crates.io/crates/device-envoy-esp) with the board's built-in smart LED (WS2812).
+## What This Repo Contains
 
-This template currently runs on and is tested with ESP32-C6 and ESP32-S3.
+- `src/main.rs` is the default quick start. It assumes a built-in NeoPixel-style (WS2812) LED on `GPIO8`.
+- `examples/<chip>/<board>/blinky.rs` contains chip- and board-specific variants.
 
-To use project as the start of your own project:
+What if your board is different from the default setup?
+
+1. If your built-in NeoPixel LED is on a different GPIO, edit `src/main.rs` to reflect its location.
+2. Alternatively, find your board at `examples/<chip>/<board>/blinky.rs`. Copy that `blinky.rs` into `src/main.rs`, and adjust wiring as needed (including external plain LED wiring if required).
+
+## Prerequisites
+
+Before **Quick Start**, install the toolchain in [Toolchain](#toolchain), then return here.
+
+## Quick Start
 
 ```bash
 git clone https://github.com/CarlKCarlK/device-envoy-esp-blinky.git
 cd device-envoy-esp-blinky
-git remote remove origin
+cargo xtask run --chip YOUR_CHIP
 ```
 
-It loops a one-pixel white SOS Morse pattern on the built-in smart LED.
-
-<img src="docs/assets/led2d_sos_1x1.png" alt="Looping 1-pixel SOS preview" width="50" height="50">
-
-No external LED wiring is required.
+Change the `YOUR_CHIP` to your chip. Supported options: `c2`, `c3`, `c5`, `c6`, `c61`, `h2`, `esp32`, `s2`, `s3`.
 
 
-Jump to the [ESP32-C6 directions](#esp32-c6-directions) or the [ESP32-S3 directions](#esp32-s3-directions).
+*This `xtask run` always adds the `--release` option*.
 
-## ESP32-C6 Directions
+## Setting the Default Chip
 
-### C6 Prerequisites
+If you do not want to repeat `--chip`, set your project default once in `xtask/src/main.rs` by changing:
 
-ESP32-C6 uses the RISC-V target.
+```rust
+const DEFAULT_CHIP: Chip = Chip::C6;
+```
 
-- Rust installed
-- `espflash` installed:
+## Main Commands
+
+*This assumes you've set the default to your chip; otherwise append `--chip YOUR_CHIP`.*
 
 ```bash
-cargo install espflash
+cargo xtask run
+cargo xtask check
+cargo xtask build
 ```
 
-- C6 target installed:
+## Running Examples Directly
+
+```bash
+cargo xtask run --example blinky_c6_devkitc1_n8
+cargo xtask check --example blinky_c6_devkitc1_n8
+cargo xtask build --example blinky_c6_devkitc1_n8
+```
+
+Where examples are defined in `examples` and (if subfolders are used) in `Cargo.toml`.
+
+## Toolchain
+
+Install Rust targets:
 
 ```bash
 rustup target add riscv32imac-unknown-none-elf
+rustup target add riscv32imc-unknown-none-elf
 ```
 
-### C6 built-in LED pin
-
-This project defaults to `GPIO8` for ESP32-C6 dev boards.
-
-If your board uses a different built-in smart LED pin, update `src/main.rs`.
-
-### C6 Build and run
-
-```bash
-cargo blinky
-```
-
-Behind the scenes `cargo blinky` is an alias for:
-
-```bash
-cargo run --release --target riscv32imac-unknown-none-elf --no-default-features
-```
-
-The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml` handles flashing and opening the serial monitor, so `cargo blinky` does both.
-
-### Extra C6 commands
-
-- Check: `cargo blinky-check`
-- Build only: `cargo blinky-build`
-
-## ESP32-S3 Directions
-
-### S3 Prerequisites
-
-ESP32-S3 uses Xtensa and requires ESP toolchain setup.
+Xtensa chips (`esp32`, `s2`, `s3`) need ESP toolchain setup:
 
 ```bash
 cargo install espup
 espup install
-source "$HOME/export-esp.sh" # skip if on Windows
 ```
 
-On Linux-like systems, you'll either need to run `source "$HOME/export-esp.sh"` every time or add `. "$HOME/export-esp.sh"` to your shell profile such as `~/.bashrc`, `~/.zshrc`, or `~/.profile`.
-
-For example, to add it to `~/.bashrc`:
+Enable espup environment before building xtensa chips:
 
 ```bash
-echo '. "$HOME/export-esp.sh"' >> ~/.bashrc
-source ~/.bashrc
+# Linux/macOS/WSL
+source "$HOME/export-esp.sh"
+# To make this permanent, add this line to your
+# shell profile (e.g. ~/.bashrc or ~/.zshrc):
+# source "$HOME/export-esp.sh"
 ```
 
-On Windows, `espup` injects the required environment variables automatically, so there is no `source` step, but you do need
-to re-start your command shell or terminal.
+```powershell
+# Windows PowerShell
+& "$env:USERPROFILE\export-esp.ps1"
+# To make this permanent, run:
+# if (!(Test-Path $PROFILE)) { New-Item -Type File -Path $PROFILE -Force }; Add-Content $PROFILE '& "$env:USERPROFILE\export-esp.ps1"'
+```
 
-### S3 built-in LED pin
-
-This project defaults to `GPIO48` for ESP32-S3 dev boards.
-
-If your board uses a different built-in smart LED pin, update `src/main.rs`. `GPIO38` is the next most common.
-
-### S3 Build and run
+Install flashing tool:
 
 ```bash
-cargo +esp blinky-s3
+cargo install espflash
 ```
-
-Behind the scenes, `cargo +esp blinky-s3` expands to:
-
-```bash
-cargo +esp run -Z build-std=core,alloc --release --target xtensa-esp32s3-none-elf --no-default-features
-```
-
-The `runner = "espflash flash --monitor"` setting in `.cargo/config.toml` handles flashing and opening the serial monitor, so `cargo +esp blinky-s3` does both.
-
-### Extra S3 commands
-
-- Check: `cargo +esp blinky-s3-check`
-- Build only: `cargo +esp blinky-s3-build`
 
 ## License
 

@@ -1,30 +1,105 @@
 [package]
 name = "device-envoy-esp-blinky"
-version = "0.0.5-alpha.5"
+version = "0.0.6-alpha.0"
 edition = "2024"
+description = "Minimal blinky starter for ESP32 chips using device-envoy-esp"
+keywords = ["embedded", "esp32", "ws2812", "blinky", "no-std"]
+categories = ["embedded", "no-std", "hardware-support"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/CarlKCarlK/device-envoy-esp-blinky"
+documentation = "https://docs.rs/device-envoy-esp"
+homepage = "https://github.com/CarlKCarlK/device-envoy-esp-blinky"
+
+[features]
+default = []
+esp32 = [
+    "device-envoy-esp/esp32",
+    "esp-hal/esp32",
+    "esp-rtos/esp32",
+    "esp-backtrace/esp32",
+    "esp-println/esp32",
+    "esp-bootloader-esp-idf/esp32",
+]
+esp32c2 = [
+    "device-envoy-esp/esp32c2",
+    "esp-hal/esp32c2",
+    "esp-rtos/esp32c2",
+    "esp-backtrace/esp32c2",
+    "esp-println/esp32c2",
+    "esp-bootloader-esp-idf/esp32c2",
+]
+esp32c3 = [
+    "device-envoy-esp/esp32c3",
+    "esp-hal/esp32c3",
+    "esp-rtos/esp32c3",
+    "esp-backtrace/esp32c3",
+    "esp-println/esp32c3",
+    "esp-bootloader-esp-idf/esp32c3",
+]
+esp32c5 = [
+    "device-envoy-esp/esp32c5",
+    "esp-hal/esp32c5",
+    "esp-rtos/esp32c5",
+    "esp-backtrace/esp32c5",
+    "esp-println/esp32c5",
+    "esp-bootloader-esp-idf/esp32c5",
+]
+esp32c6 = [
+    "device-envoy-esp/esp32c6",
+    "esp-hal/esp32c6",
+    "esp-rtos/esp32c6",
+    "esp-backtrace/esp32c6",
+    "esp-println/esp32c6",
+    "esp-bootloader-esp-idf/esp32c6",
+]
+esp32c61 = [
+    "device-envoy-esp/esp32c61",
+    "esp-hal/esp32c61",
+    "esp-rtos/esp32c61",
+    "esp-backtrace/esp32c61",
+    "esp-println/esp32c61",
+    "esp-bootloader-esp-idf/esp32c61",
+]
+esp32h2 = [
+    "device-envoy-esp/esp32h2",
+    "esp-hal/esp32h2",
+    "esp-rtos/esp32h2",
+    "esp-backtrace/esp32h2",
+    "esp-println/esp32h2",
+    "esp-bootloader-esp-idf/esp32h2",
+]
+esp32s2 = [
+    "device-envoy-esp/esp32s2",
+    "esp-hal/esp32s2",
+    "esp-rtos/esp32s2",
+    "esp-backtrace/esp32s2",
+    "esp-println/esp32s2",
+    "esp-bootloader-esp-idf/esp32s2",
+]
+esp32s3 = [
+    "device-envoy-esp/esp32s3",
+    "esp-hal/esp32s3",
+    "esp-rtos/esp32s3",
+    "esp-backtrace/esp32s3",
+    "esp-println/esp32s3",
+    "esp-bootloader-esp-idf/esp32s3",
+]
 
 [dependencies]
-device-envoy-esp = { version = "0.0.5-alpha.5", default-features = false }
-embassy-executor = "0.9.0"
-embassy-time = "0.5.0"
+device-envoy-esp = { version = "0.0.6-alpha.0", default-features = false }
+embassy-executor = "0.10.0"
+embassy-time = "0.5.1"
 smart-leds = "0.4.0"
 paste = "1.0"
 static_cell = "2.1.1"
+heapless = "0.9.2"
 
-[target.'cfg(all(target_os = "none", target_arch = "riscv32"))'.dependencies]
-esp-hal = { version = "1.0.0", features = ["esp32c6", "unstable"] }
-esp-rtos = { version = "0.2.0", features = ["esp32c6", "embassy", "esp-radio", "esp-alloc"] }
-esp-backtrace = { version = "0.18.1", features = ["esp32c6", "panic-handler", "halt-cores", "println"] }
-esp-println = { version = "0.16.1", default-features = false, features = ["esp32c6", "uart", "log-04"] }
-esp-bootloader-esp-idf = { version = "0.4.0", features = ["esp32c6"] }
-log = { version = "0.4", default-features = false }
-
-[target.'cfg(all(target_os = "none", target_arch = "xtensa"))'.dependencies]
-esp-hal = { version = "1.0.0", features = ["esp32s3", "unstable"] }
-esp-rtos = { version = "0.2.0", features = ["esp32s3", "embassy", "esp-radio", "esp-alloc"] }
-esp-backtrace = { version = "0.18.1", features = ["esp32s3", "panic-handler", "halt-cores", "println"] }
-esp-println = { version = "0.16.1", default-features = false, features = ["esp32s3", "uart", "log-04"] }
-esp-bootloader-esp-idf = { version = "0.4.0", features = ["esp32s3"] }
+[target.'cfg(target_os = "none")'.dependencies]
+esp-hal = { version = "1.1.0", default-features = false, features = ["unstable"] }
+esp-rtos = { version = "0.3.0", default-features = false, features = ["embassy", "esp-radio", "esp-alloc"] }
+esp-backtrace = { version = "0.19.0", default-features = false, features = ["panic-handler", "halt-cores", "println"] }
+esp-println = { version = "0.17.0", default-features = false, features = ["uart", "log-04"] }
+esp-bootloader-esp-idf = { version = "0.5.0", default-features = false }
 log = { version = "0.4", default-features = false }
 
 [profile.dev]
@@ -34,3 +109,76 @@ panic = "abort"
 codegen-units = 1
 lto = "thin"
 panic = "abort"
+
+# BEGIN GENERATED BLINKY EXAMPLES
+[[example]]
+name = "blinky_c2_devkitm1_v1_0"
+path = "examples/c2/devkitm1_v1_0/blinky.rs"
+required-features = ["esp32c2"]
+
+[[example]]
+name = "blinky_c2_generic"
+path = "examples/c2/generic/blinky.rs"
+required-features = ["esp32c2"]
+
+[[example]]
+name = "blinky_c3_generic"
+path = "examples/c3/generic/blinky.rs"
+required-features = ["esp32c3"]
+
+[[example]]
+name = "blinky_c3_luatos"
+path = "examples/c3/luatos/blinky.rs"
+required-features = ["esp32c3"]
+
+[[example]]
+name = "blinky_c5_generic"
+path = "examples/c5/generic/blinky.rs"
+required-features = ["esp32c5"]
+
+[[example]]
+name = "blinky_c6_devkitc1_n8"
+path = "examples/c6/devkitc1_n8/blinky.rs"
+required-features = ["esp32c6"]
+
+[[example]]
+name = "blinky_c6_generic"
+path = "examples/c6/generic/blinky.rs"
+required-features = ["esp32c6"]
+
+[[example]]
+name = "blinky_c61_generic"
+path = "examples/c61/generic/blinky.rs"
+required-features = ["esp32c61"]
+
+[[example]]
+name = "blinky_esp32_generic"
+path = "examples/esp32/generic/blinky.rs"
+required-features = ["esp32"]
+
+[[example]]
+name = "blinky_h2_generic"
+path = "examples/h2/generic/blinky.rs"
+required-features = ["esp32h2"]
+
+[[example]]
+name = "blinky_s2_generic"
+path = "examples/s2/generic/blinky.rs"
+required-features = ["esp32s2"]
+
+[[example]]
+name = "blinky_s3_devkitc1_v1_0_n16r8"
+path = "examples/s3/devkitc1_v1_0_n16r8/blinky.rs"
+required-features = ["esp32s3"]
+
+[[example]]
+name = "blinky_s3_devkitc1_v1_1_n16r8"
+path = "examples/s3/devkitc1_v1_1_n16r8/blinky.rs"
+required-features = ["esp32s3"]
+
+[[example]]
+name = "blinky_s3_generic"
+path = "examples/s3/generic/blinky.rs"
+required-features = ["esp32s3"]
+
+# END GENERATED BLINKY EXAMPLES

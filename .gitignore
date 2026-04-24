@@ -1,1 +1,3 @@
 /target
+.codex
+xtask/target/*

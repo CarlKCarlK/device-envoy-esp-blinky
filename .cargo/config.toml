@@ -1,12 +1,25 @@
-[alias]
-blinky = "run --release --target riscv32imac-unknown-none-elf --no-default-features"
-blinky-check = "check --release --target riscv32imac-unknown-none-elf --no-default-features"
-blinky-build = "build --release --target riscv32imac-unknown-none-elf --no-default-features"
-blinky-s3 = "run -Z build-std=core,alloc --release --target xtensa-esp32s3-none-elf --no-default-features"
-blinky-s3-check = "check -Z build-std=core,alloc --release --target xtensa-esp32s3-none-elf --no-default-features"
-blinky-s3-build = "build -Z build-std=core,alloc --release --target xtensa-esp32s3-none-elf --no-default-features"
-
 [target.riscv32imac-unknown-none-elf]
+runner = "espflash flash --monitor"
+rustflags = [
+  "-C",
+  "link-arg=-Tlinkall.x",
+]
+
+[target.riscv32imc-unknown-none-elf]
+runner = "espflash flash --monitor"
+rustflags = [
+  "-C",
+  "link-arg=-Tlinkall.x",
+]
+
+[target.xtensa-esp32-none-elf]
+runner = "espflash flash --monitor"
+rustflags = [
+  "-C",
+  "link-arg=-Tlinkall.x",
+]
+
+[target.xtensa-esp32s2-none-elf]
 runner = "espflash flash --monitor"
 rustflags = [
   "-C",
@@ -20,5 +33,5 @@ rustflags = [
   "link-arg=-Tlinkall.x",
 ]
 
-[build]
-target = "riscv32imac-unknown-none-elf"
+[alias]
+xtask = "run --manifest-path xtask/Cargo.toml --"
