@@ -24,6 +24,14 @@ Before **Quick Start**, install the toolchain in [Toolchain](#toolchain), then r
 ```bash
 git clone https://github.com/CarlKCarlK/device-envoy-esp-blinky.git
 cd device-envoy-esp-blinky
+git remote remove origin
+```
+
+The default code in `src/main.rs` assumes a built-in NeoPixel-style LED on `GPIO8`, which matches common ESP32-C3 and ESP32-C6 Espressif dev boards. For an ESP32-S3, change it to `GPIO38` or `GPIO48`, depending on the board revision. For other chips, or if that doesn't work, see [Running Examples Directly](#running-examples-directly).
+
+Next, run:
+
+```bash
 cargo xtask run --chip YOUR_CHIP
 ```
 
@@ -61,6 +69,8 @@ cargo xtask build --example blinky_c6_devkitc1_n8
 Where examples are defined in `examples` and (if subfolders are used) in `Cargo.toml`.
 
 ## Toolchain
+
+Install Rust from [rustup.rs](https://rustup.rs) if you haven't already.
 
 Install Rust targets:
 
