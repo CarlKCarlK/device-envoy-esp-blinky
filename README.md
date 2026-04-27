@@ -37,7 +37,6 @@ cargo xtask run --chip YOUR_CHIP
 
 Change the `YOUR_CHIP` to your chip. Supported options: `c2`, `c3`, `c5`, `c6`, `c61`, `h2`, `esp32`, `s2`, `s3`.
 
-
 *This `xtask run` always adds the `--release` option*.
 
 ## Setting the Default Chip
