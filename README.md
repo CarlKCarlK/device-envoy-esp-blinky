@@ -15,6 +15,7 @@ What if your board is different from the default setup?
 1. If your built-in NeoPixel LED is on a different GPIO, edit `src/main.rs` to reflect its location.
 2. Alternatively, find your board at `examples/<chip>/<board>/blinky.rs`. Copy that `blinky.rs` into `src/main.rs`, and adjust wiring as needed (including external plain LED wiring if required).
 
+**Feedback**: If you try this crate, I’d love to hear how it goes, whether it works well, fails to build, needs clearer docs, or does not fit your hardware. Please send feedback to carlk AT msn.com.
 ## Prerequisites
 
 Before **Quick Start**, install the toolchain in [Toolchain](#toolchain), then return here.
