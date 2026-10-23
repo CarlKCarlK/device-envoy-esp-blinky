@@ -309,9 +309,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-core"
-version = "0.1.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1a5da2efcf134e17d5ca11aa07bc7c771e8d81542d734420c8d89937f66ecf5"
+version = "0.2.0"
 dependencies = [
  "crc32fast",
  "critical-section",
@@ -323,8 +321,8 @@ dependencies = [
  "embassy-time",
  "embedded-graphics",
  "heapless 0.9.2",
+ "macro-schema",
  "micromath",
- "paste",
  "portable-atomic",
  "postcard",
  "profont",
@@ -336,9 +334,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-esp"
-version = "0.1.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e80d0ab4cb72ca70b72472d4ac4e4e713ec1ae1e712e4cf08cf511f6e609307b"
+version = "0.2.0"
 dependencies = [
  "derive_more",
  "device-envoy-core",
@@ -360,6 +356,7 @@ dependencies = [
  "esp-storage",
  "heapless 0.9.2",
  "log",
+ "macro-schema",
  "mipidsi",
  "paste",
  "portable-atomic",
@@ -371,7 +368,7 @@ dependencies = [
 
 [[package]]
 name = "device-envoy-esp-blinky"
-version = "0.1.6"
+version = "0.2.0"
 dependencies = [
  "device-envoy-esp",
  "embassy-executor",
@@ -1536,6 +1533,36 @@ dependencies = [
 ]
 
 [[package]]
+name = "macro-schema"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5cb9d3394aee92caddf593ba8a6d23fd9207c34ae2056c0c956e407515725599"
+dependencies = [
+ "macro-schema-derive",
+]
+
+[[package]]
+name = "macro-schema-core"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "97b0908e05d9100ed3d8ea4661d87a81a26d006d0aaba384560a93d04c7abf77"
+dependencies = [
+ "prettyplease",
+ "proc-macro2",
+ "quote",
+ "syn 3.0.9",
+]
+
+[[package]]
+name = "macro-schema-derive"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "52e784ab006068b3572170d5433a4b4f1ddec35c5b3a772b22f4a8e8b705f34f"
+dependencies = [
+ "macro-schema-core",
+]
+
+[[package]]
 name = "managed"
 version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1703,6 +1730,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "439ee305def115ba05938db6eb1644ff94165c5ab5e9420d1c1bcedbba909391"
 
 [[package]]
+name = "prettyplease"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2bfe0f4c752e450fc2faf62654f1c134747922825d5b04ca717b8874f41a40c0"
+dependencies = [
+ "proc-macro2",
+ "syn 3.0.9",
+]
+
+[[package]]
 name = "proc-macro-crate"
 version = "3.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1713,9 +1750,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.106"
+version = "1.0.107"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8fd00f0bb2e90d81d1044c2b32617f68fcb9fa3bb7640c23e9c748e53fb30934"
+checksum = "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9"
 dependencies = [
  "unicode-ident",
 ]
@@ -1731,9 +1768,9 @@ dependencies = [
 
 [[package]]
 name = "quote"
-version = "1.0.45"
+version = "1.0.47"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "41f2619966050689382d2b44f664f4bc593e129785a36d6ee376ddf37259b924"
+checksum = "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001"
 dependencies = [
  "proc-macro2",
 ]
@@ -2099,6 +2136,17 @@ name = "syn"
 version = "2.0.117"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e665b8803e7b1d2a727f4023456bbbbe74da67099c585258af0ad9c5013b9b99"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "unicode-ident",
+]
+
+[[package]]
+name = "syn"
+version = "3.0.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d78c8dee4c7bf0e14673097256fed6142ce9d3b85a408189d07482442145823b"
 dependencies = [
  "proc-macro2",
  "quote",
