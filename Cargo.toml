@@ -92,7 +92,6 @@ device-envoy-esp = { version = "0.2.0", path = "../device-envoy/crates/device-en
 embassy-executor = "0.10.0"
 embassy-time = "0.5.1"
 smart-leds = "0.4.0"
-paste = "1.0"
 static_cell = "2.1.1"
 heapless = "0.9.2"
 
