@@ -33,16 +33,24 @@ feature=""
 
 case "${chip}" in
   c2)
-    target="riscv32imac-unknown-none-elf"
+    target="riscv32imc-unknown-none-elf"
     feature="esp32c2"
     ;;
   c3)
     target="riscv32imc-unknown-none-elf"
     feature="esp32c3"
     ;;
+  c5)
+    target="riscv32imac-unknown-none-elf"
+    feature="esp32c5"
+    ;;
   c6)
     target="riscv32imac-unknown-none-elf"
     feature="esp32c6"
+    ;;
+  c61)
+    target="riscv32imac-unknown-none-elf"
+    feature="esp32c61"
     ;;
   h2)
     target="riscv32imac-unknown-none-elf"
@@ -67,7 +75,7 @@ case "${chip}" in
     build_std_args=(-Zbuild-std=core,alloc)
     ;;
   *)
-    echo "invalid chip '${chip}' (expected one of: c2, c3, c6, h2, esp32, s2, s3)" >&2
+    echo "invalid chip '${chip}' (expected one of: c2, c3, c5, c6, c61, h2, esp32, s2, s3)" >&2
     exit 1
     ;;
 esac
