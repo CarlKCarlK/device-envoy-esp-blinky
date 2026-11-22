@@ -5,6 +5,8 @@
 
 Minimal blinky project using [`device-envoy-esp`](https://crates.io/crates/device-envoy-esp) and a built-in NeoPixel-style (WS2812) LED (where available).
 
+[Device Envoy](https://crates.io/crates/device-envoy-esp) makes Rust applications for ESP32 easier. It helps your program draw on touchscreens, animate LED strips, join WiFi, and more, without writing interrupt handlers, DMA setup, or background tasks yourself.
+
 ## What This Repo Contains
 
 - `src/main.rs` is the default quick start. It assumes a built-in NeoPixel-style (WS2812) LED on `GPIO8`.
