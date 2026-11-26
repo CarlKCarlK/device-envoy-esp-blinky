@@ -4,9 +4,8 @@
 //! SOS blinky for `luatos` (ESP32-C3).
 //!
 //! Setup:
-//! - Wire an external plain LED as active-high.
-//! - LED anode (long leg) -> resistor -> GPIO7
-//! - LED cathode (short leg) -> GND
+//! - This board uses a built-in plain LED on GPIO12.
+//! - The LuatOS ESP32-C3 Core Board uses external SPI flash in DIO mode.
 
 #![no_std]
 #![no_main]
@@ -61,7 +60,7 @@ const SOS: [(LedLevel, Duration); 18] = [
 
 led! {
     SosLed {
-        pin: GPIO7,
+        pin: GPIO12,
         max_steps: 20,
     }
 }
@@ -76,9 +75,9 @@ async fn inner_main(spawner: Spawner) -> Result<Infallible> {
     init_and_start!(p);
 
     esp_println::logger::init_logger(log::LevelFilter::Info);
-    info!("SOS plain LED blinky starting on GPIO7 (luatos)");
+    info!("SOS plain LED blinky starting on GPIO12 (luatos)");
 
-    let sos_led = SosLed::new(p.GPIO7, LED_ON_LEVEL, spawner)?;
+    let sos_led = SosLed::new(p.GPIO12, LED_ON_LEVEL, spawner)?;
     sos_led.animate(SOS);
 
     pending().await
